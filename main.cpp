@@ -5,25 +5,19 @@
 // UTF-8
 #include <locale.h>
 
-struct a_definir{
-	//inserir código aqui
-};
+typedef struct{
+	//a definir
+}a_definir;
 
-void cadastro(struct a_definir T[]){
+
+void cadastro(a_definir T[]){
 	//inserir código aqui
 }
 
-void mostra(struct a_definir T[]){
-	//inserir código aqui
-}
-
-void mostra1(struct a_definir T[]){
-	//inserir código aqui
-}
 
 void menu(){
 	int opcao;
-	struct a_definir P[30];
+	a_definir P[30];
     setlocale(LC_ALL,"");
 
 	while(1){
@@ -40,8 +34,6 @@ void menu(){
 		scanf("%d", &opcao);
 	
 		if(opcao == 1) cadastro(P);
-		if(opcao == 2) mostra(P);
-		if(opcao == 3) mostra1(P);
 		if(opcao == 9) return;
 	}
 }
