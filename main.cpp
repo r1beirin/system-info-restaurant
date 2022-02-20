@@ -28,8 +28,8 @@ typedef struct{
 void mostrar_cardapio(int *qtd_comida, pratos_principais P[], int *qtd_sobremesa, sobremesa S[], int *qtd_bebida, bebida B[]){
 	int op;
 	while(1){
-		printf("\n===== Mostrar cardapio =====");
 		setbuf(stdin, NULL);
+		printf("\n===== Mostrar cardapio =====");
 		printf("\n1. Mostrar pratos principais");
 		printf("\n2. Mostrar sobremesas");
 		printf("\n3. Mostrar bebidas");
@@ -74,8 +74,8 @@ void adicionar_cardapio(int *qtd_comida, pratos_principais P[], int *qtd_sobreme
 	int op, op2;
 
 	while(1){
-		printf("\n===== Adicionar no cardapio =====");
 		setbuf(stdin, NULL);
+		printf("\n===== Adicionar no cardapio =====");
 		printf("\n1. Adicionar pratos principais");
 		printf("\n2. Adicionar sobremesas");
 		printf("\n3. Adicionar bebidas");
@@ -152,20 +152,21 @@ void menu(){
 		setbuf(stdin, NULL);
 		printf("\nBem vindo ao Sistema de Gerenciamento de Restaurante");
 		printf("\n1 - Adicionar no cardapio");
-		printf("\n2 - Mostrar o cardapio");
-		/*printf("\n3 - Mostrar o estoque");
-		printf("\n4 - Cadastrar pedido");
-		printf("\n5 - Mostrar pedidos");
-		printf("\n6 - Controle de caixa");
-		printf("\n7 - Relatorio gerencial");
-		printf("\n8 - Ver relatorio");*/
-		printf("\n9 - Sair");
+		//printf("\n2 - Remover do cardapio");
+		printf("\n3 - Mostrar o cardapio");
+		/*printf("\n4 - Mostrar o estoque");
+		printf("\n5 - Cadastrar pedido");
+		printf("\n6 - Mostrar pedidos");
+		printf("\n7 - Controle de caixa");
+		printf("\n8 - Relatorio gerencial");
+		printf("\n9 - Ver relatorio");*/
+		printf("\n10 - Sair");
 		printf("\nDigite opcao: ");
 		scanf("%d", &opcao);
 	
 		if(opcao == 1) adicionar_cardapio(quantidadeComida, c, quantidadeSobremesa, s, quantidadeBebida, b);
-		if(opcao == 2) mostrar_cardapio(quantidadeComida, c, quantidadeSobremesa, s, quantidadeBebida, b);
-		if(opcao == 9) return;
+		if(opcao == 3) mostrar_cardapio(quantidadeComida, c, quantidadeSobremesa, s, quantidadeBebida, b);
+		if(opcao == 10) return;
 	}
 }
 
