@@ -11,6 +11,7 @@
 */
 typedef struct{
 	char vet[MAXQTD];
+	int price[MAXQTD];
 }pratos_principais;
 
 //	Struct de vetores para armazenar as sobremesas
@@ -28,54 +29,10 @@ typedef struct{
 	char vet[MAXQTD];
 }estoque;
 
-//	Struct de matrizes para os pedidos. ~> São n linhas e 2 colunas (comida e bebida).
+//	Struct de matrizes para os pedidos
 typedef struct{
 	char vet[MAXQTD];
 }pedido;
-
-/*
-	Função mostrar cardapio e recebe 6 parametros.
-	De modo geral, para cada opção do cardapio, é necessário um ponteiro e um struct.
-*/
-void mostrar_cardapio(int *qtd_comida, pratos_principais P[], int *qtd_sobremesa, sobremesa S[], int *qtd_bebida, bebida B[]){
-	int op;
-	while(1){
-		setbuf(stdin, NULL);
-		printf("\n===== Mostrar cardapio =====");
-		printf("\n1. Mostrar pratos principais");
-		printf("\n2. Mostrar sobremesas");
-		printf("\n3. Mostrar bebidas");
-		printf("\n4. Voltar");
-		printf("\nDigite a opcao: ");
-		scanf("%d", &op);
-
-		if(op == 1){
-			printf("\n===== PRATOS PRINCIPAIS =====");
-			for(int i = 0; i < *qtd_comida; i++){
-				printf("\nID %d - %s", i, P[i].vet);
-			}
-			printf("\n");
-		}
-
-		if(op == 2){
-			printf("\n===== SOBREMESAS =====");
-			for(int i = 0; i < *qtd_sobremesa; i++){
-				printf("\nID %d - %s", i, S[i].vet);
-			}
-			printf("\n");
-		}
-
-		if(op == 3){
-			printf("\n===== BEBIDAS =====");
-			for(int i = 0; i < *qtd_bebida; i++){
-				printf("\nID %d - %s", i, B[i].vet);
-			}
-			printf("\n");
-		}
-
-		if(op == 4) return;
-	}
-}
 
 /*
 	Função cadastrar algo no cardapio e recebe 6 parametros.
@@ -100,6 +57,9 @@ void adicionar_cardapio(int *qtd_comida, pratos_principais P[], int *qtd_sobreme
 				setbuf(stdin, NULL);
 				printf("\nDigite o nome do prato: ");
 				scanf("%[^\n]s", P[*qtd_comida].vet);
+				printf("Digite o valor do prato: R$");
+				scanf("%d", &P[*qtd_comida].price);
+				printf("\n%d", P[*qtd_comida].price);
 				printf("\nDeseja adicionar outro prato ao cardapio?");
 				printf("\n1. Sim");
 				printf("\n2. Nao");
@@ -147,6 +107,50 @@ void adicionar_cardapio(int *qtd_comida, pratos_principais P[], int *qtd_sobreme
 	}
 }
 
+/*
+	Função mostrar cardapio e recebe 6 parametros.
+	De modo geral, para cada opção do cardapio, é necessário um ponteiro e um struct.
+*/
+void mostrar_cardapio(int *qtd_comida, pratos_principais P[], int *qtd_sobremesa, sobremesa S[], int *qtd_bebida, bebida B[]){
+	int op;
+	while(1){
+		setbuf(stdin, NULL);
+		printf("\n===== Mostrar cardapio =====");
+		printf("\n1. Mostrar pratos principais");
+		printf("\n2. Mostrar sobremesas");
+		printf("\n3. Mostrar bebidas");
+		printf("\n4. Voltar");
+		printf("\nDigite a opcao: ");
+		scanf("%d", &op);
+
+		if(op == 1){
+			printf("\n===== PRATOS PRINCIPAIS =====");
+			for(int i = 0; i < *qtd_comida; i++){
+				printf("\nID %d - %s - R$%.2lf", i, P[i].vet, P[i].price);
+			}
+			printf("\n");
+		}
+
+		if(op == 2){
+			printf("\n===== SOBREMESAS =====");
+			for(int i = 0; i < *qtd_sobremesa; i++){
+				printf("\nID %d - %s", i, S[i].vet);
+			}
+			printf("\n");
+		}
+
+		if(op == 3){
+			printf("\n===== BEBIDAS =====");
+			for(int i = 0; i < *qtd_bebida; i++){
+				printf("\nID %d - %s", i, B[i].vet);
+			}
+			printf("\n");
+		}
+
+		if(op == 4) return;
+	}
+}
+
 //	O ponteiro serve de contador para a função mostrar_estoque().
 void adicionar_estoque(int *qtd_estoque, estoque E[]){
 	int op;
@@ -187,7 +191,7 @@ void cadastrar_pedido(int *qtd_pedido, pedido P[], double *valor_total){
 		printf("\n===== Cadastro de pedido =====");
 		printf("\nDigite o pedido do cliente: ");
 		scanf("%[^\n]s", P[*qtd_pedido].vet);
-		printf("\nDigite o valor do pedido: R$");
+		printf("Digite o valor do pedido: R$");
 		scanf("%lf", &valor);
 		*valor_total += valor;
 
