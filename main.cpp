@@ -33,7 +33,6 @@ typedef struct{
 	char vet[MAXQTD];
 }pedido;
 
-
 /*
 	Função mostrar cardapio e recebe 6 parametros.
 	De modo geral, para cada opção do cardapio, é necessário um ponteiro e um struct.
