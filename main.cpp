@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 //	OBS: MAXQTD é uma constante para os vetores de pratos, sobremesas, bebidas e estoque.
 //	Cuidado ao mexer nela.
 #define MAXQTD 100
