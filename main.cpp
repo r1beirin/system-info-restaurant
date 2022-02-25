@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-//	OBS: MAXQTD é uma constante para os vetores de pratos, sobremesas, bebidas, estoque e pedidos.
+//	OBS: MAXQTD é uma constante para o tamanho dos vetores de pratos, sobremesas, bebidas, estoque e pedidos.
 //	Cuidado ao mexer nela.
 #define MAXQTD 100
 
@@ -114,6 +114,74 @@ void adicionar_cardapio(int *qtd_comida, pratos_principais P[], int *qtd_sobreme
 
 		if(op == 4) return;
 	}
+}
+
+/*
+	Função de remover cardapio recebe 6 parametros, 2 parametros por opção do cardapio.
+	A função roda um for que substitui os elementos 1 a 1. O for substitui a posição anterior pela atual.
+	No for, substitui-se o nome (string) do anterior pelo atual e o preço (double) do anterior pelo atual.
+	String ~> Uso da strcpy para fazer a substituição.
+	Double ~> Uso de ponteiro para substituição.
+	Ao final da substituição, decrementa 1 de tamanho no vetor.
+*/
+void remover_cardapio(int *qtd_comida, pratos_principais P[], int *qtd_sobremesa, sobremesa S[], int *qtd_bebida, bebida B[]){
+    int op, id;
+    while(1){
+        setbuf(stdin, NULL);
+        printf("\n===== Remover do cardapio =====");
+        printf("\n1. Pratos principais");
+        printf("\n2. Sobremesas");
+        printf("\n3. Bebidas");
+        printf("\n4. Voltar");
+		printf("\nDigite a opcao: ");
+        scanf("%d",&op);
+
+        if(op == 1){
+            printf("\n===== PRATOS PRINCIPAIS =====");
+            printf("\nDigite o ID: ");
+            scanf("%d",&id);
+
+            for(int i = id+1; i <= *qtd_comida; i++){
+                strcpy(P[i-1].vet, P[i].vet);
+                *P[i-1].price = *P[i].price;
+                
+            }
+
+            *qtd_comida -= 1;
+        }
+
+        if(op == 2){
+            printf("\n===== SOBREMESAS =====");
+            printf("\nDigite o ID: ");
+            scanf("%d",&id);
+
+            for(int i = id+1; i <= *qtd_sobremesa; i++){
+                strcpy(S[i-1].vet, S[i].vet);
+                *S[i-1].price = *S[i].price;
+                
+            }
+
+            *qtd_sobremesa -= 1;
+        }
+
+        if(op == 3){
+            printf("\n===== BEBIDAS =====");
+            printf("\nDigite o ID: ");
+            scanf("%d",&id);
+
+            for(int i = id+1; i <= *qtd_bebida; i++){
+                strcpy(B[i-1].vet, B[i].vet);
+                *B[i-1].price = *B[i].price;
+                
+            }
+
+            *qtd_bebida -= 1;
+        }
+        
+        if(op == 4) return;
+
+    }
+
 }
 
 /*
@@ -334,6 +402,7 @@ void menu(){
 		scanf("%d", &opcao);
 	
 		if(opcao == 1) adicionar_cardapio(quantidadeComida, c, quantidadeSobremesa, s, quantidadeBebida, b);
+		if(opcao == 2) remover_cardapio(quantidadeComida, c, quantidadeSobremesa, s, quantidadeBebida, b);
 		if(opcao == 3) mostrar_cardapio(quantidadeComida, c, quantidadeSobremesa, s, quantidadeBebida, b);
 		if(opcao == 4) adicionar_estoque(quantidadeEstoque, e);
 		if(opcao == 5) remover_estoque(quantidadeEstoque, e);
