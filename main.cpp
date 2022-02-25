@@ -139,7 +139,7 @@ void remover_cardapio(int *qtd_comida, pratos_principais P[], int *qtd_sobremesa
         if(op == 1){
             printf("\n===== PRATOS PRINCIPAIS =====");
             printf("\nDigite o ID: ");
-            scanf("%d",&id);
+            scanf("%d", &id);
 
             for(int i = id+1; i <= *qtd_comida; i++){
                 strcpy(P[i-1].vet, P[i].vet);
@@ -153,7 +153,7 @@ void remover_cardapio(int *qtd_comida, pratos_principais P[], int *qtd_sobremesa
         if(op == 2){
             printf("\n===== SOBREMESAS =====");
             printf("\nDigite o ID: ");
-            scanf("%d",&id);
+            scanf("%d", &id);
 
             for(int i = id+1; i <= *qtd_sobremesa; i++){
                 strcpy(S[i-1].vet, S[i].vet);
@@ -167,7 +167,7 @@ void remover_cardapio(int *qtd_comida, pratos_principais P[], int *qtd_sobremesa
         if(op == 3){
             printf("\n===== BEBIDAS =====");
             printf("\nDigite o ID: ");
-            scanf("%d",&id);
+            scanf("%d", &id);
 
             for(int i = id+1; i <= *qtd_bebida; i++){
                 strcpy(B[i-1].vet, B[i].vet);
