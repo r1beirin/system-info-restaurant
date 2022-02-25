@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-//	OBS: MAXQTD é uma constante para os vetores de pratos, sobremesas, bebidas e estoque.
+#include <string.h>
+//	OBS: MAXQTD é uma constante para os vetores de pratos, sobremesas, bebidas, estoque e pedidos.
 //	Cuidado ao mexer nela.
 #define MAXQTD 100
 
@@ -11,17 +12,19 @@
 */
 typedef struct{
 	char vet[MAXQTD];
-	int price[MAXQTD];
+	double price[MAXQTD];
 }pratos_principais;
 
 //	Struct de vetores para armazenar as sobremesas
 typedef struct{
 	char vet[MAXQTD];
+	double price[MAXQTD];
 }sobremesa;
 
 //	Struct de vetores para armazenar as bebidas
 typedef struct{
 	char vet[MAXQTD];
+	double price[MAXQTD];
 }bebida;
 
 //	Struct de vetores para o estoque
@@ -52,14 +55,14 @@ void adicionar_cardapio(int *qtd_comida, pratos_principais P[], int *qtd_sobreme
 		printf("\nDigite a opcao: ");
 		scanf("%d", &op);
 
+		//	Adicionar pratos principais
 		if(op == 1){
 			while(1){
 				setbuf(stdin, NULL);
 				printf("\nDigite o nome do prato: ");
 				scanf("%[^\n]s", P[*qtd_comida].vet);
 				printf("Digite o valor do prato: R$");
-				scanf("%d", &P[*qtd_comida].price);
-				printf("\n%d", P[*qtd_comida].price);
+				scanf("%lf", P[*qtd_comida].price);
 				printf("\nDeseja adicionar outro prato ao cardapio?");
 				printf("\n1. Sim");
 				printf("\n2. Nao");
@@ -71,11 +74,14 @@ void adicionar_cardapio(int *qtd_comida, pratos_principais P[], int *qtd_sobreme
 			}
 		}
 
+		//	Adicionar sobremesa
 		if(op == 2){
 			while(1){
 				setbuf(stdin, NULL);
 				printf("\nDigite o nome da sobremesa: ");
 				scanf("%[^\n]s", S[*qtd_sobremesa].vet);
+				printf("Digite o valor da sobremesa: R$");
+				scanf("%lf", S[*qtd_sobremesa].price);
 				printf("\nDeseja adicionar outra sobremesa ao cardapio?");
 				printf("\n1. Sim");
 				printf("\n2. Nao");
@@ -87,11 +93,14 @@ void adicionar_cardapio(int *qtd_comida, pratos_principais P[], int *qtd_sobreme
 			}
 		}
 
+		//	Adicionar bebida
 		if(op == 3){
 			while(1){
 				setbuf(stdin, NULL);
 				printf("\nDigite o nome da bebida: ");
 				scanf("%[^\n]s", B[*qtd_bebida].vet);
+				printf("Digite o valor da bebida: R$");
+				scanf("%lf", B[*qtd_bebida].price);
 				printf("\nDeseja adicionar outra bebida ao cardapio?");
 				printf("\n1. Sim");
 				printf("\n2. Nao");
@@ -110,6 +119,8 @@ void adicionar_cardapio(int *qtd_comida, pratos_principais P[], int *qtd_sobreme
 /*
 	Função mostrar cardapio e recebe 6 parametros.
 	De modo geral, para cada opção do cardapio, é necessário um ponteiro e um struct.
+	Todo ponteiro de quantidade serve como contador para mostrar o cardapio.
+	O for vai de 0 até contador printando a parte escolhida do cardapio.
 */
 void mostrar_cardapio(int *qtd_comida, pratos_principais P[], int *qtd_sobremesa, sobremesa S[], int *qtd_bebida, bebida B[]){
 	int op;
@@ -126,7 +137,7 @@ void mostrar_cardapio(int *qtd_comida, pratos_principais P[], int *qtd_sobremesa
 		if(op == 1){
 			printf("\n===== PRATOS PRINCIPAIS =====");
 			for(int i = 0; i < *qtd_comida; i++){
-				printf("\nID %d - %s - R$%.2lf", i, P[i].vet, P[i].price);
+				printf("\nID %d - %s - R$%.2lf", i, P[i].vet, *P[i].price);
 			}
 			printf("\n");
 		}
@@ -134,7 +145,7 @@ void mostrar_cardapio(int *qtd_comida, pratos_principais P[], int *qtd_sobremesa
 		if(op == 2){
 			printf("\n===== SOBREMESAS =====");
 			for(int i = 0; i < *qtd_sobremesa; i++){
-				printf("\nID %d - %s", i, S[i].vet);
+				printf("\nID %d - %s - R$%.2lf", i, S[i].vet, *S[i].price);
 			}
 			printf("\n");
 		}
@@ -142,7 +153,7 @@ void mostrar_cardapio(int *qtd_comida, pratos_principais P[], int *qtd_sobremesa
 		if(op == 3){
 			printf("\n===== BEBIDAS =====");
 			for(int i = 0; i < *qtd_bebida; i++){
-				printf("\nID %d - %s", i, B[i].vet);
+				printf("\nID %d - %s - R$%.2lf", i, B[i].vet, *B[i].price);
 			}
 			printf("\n");
 		}
@@ -151,7 +162,10 @@ void mostrar_cardapio(int *qtd_comida, pratos_principais P[], int *qtd_sobremesa
 	}
 }
 
-//	O ponteiro serve de contador para a função mostrar_estoque().
+/*
+	Função para adicionar algum item no estoque. Usa struct e ponteiro.
+	O ponteiro serve de contador para a função mostrar_estoque().
+*/
 void adicionar_estoque(int *qtd_estoque, estoque E[]){
 	int op;
 
@@ -160,9 +174,38 @@ void adicionar_estoque(int *qtd_estoque, estoque E[]){
 		printf("\n===== Cadastro de items no estoque =====");
 		printf("\nDigite o item a ser cadastrado: ");
 		scanf("%[^\n]s", E[*qtd_estoque].vet);
-		*qtd_estoque += 1;
 
 		printf("\nDeseja cadastrar novamente no estoque?");
+		printf("\n1. Sim");
+		printf("\n2. Nao");
+		printf("\nOpcao: ");
+		scanf("%d", &op);
+
+		*qtd_estoque += 1;
+		if(op == 2) return;
+	}
+}
+
+/*
+	Função de remoção de itens no estoque. Recebe parametro de um ponteiro e da struct estoque.
+	A função roda um for que substitui os elementos 1 a 1. O for substitui a posição anterior pela atual.
+	Ao final da substituição, decrementa 1 de tamanho no vetor.
+*/
+void remover_estoque(int *qtd_estoque, estoque E[]){
+	int op, id;
+	while(1){
+		setbuf(stdin, NULL);
+		printf("\n===== Remover algum item do estoque =====");
+		printf("\nDigite o ID: ");
+		scanf("%d", &id);
+		
+		for(int i = id+1; i <= *qtd_estoque; i++){
+			strcpy(E[i-1].vet, E[i].vet);
+		}
+
+		*qtd_estoque -= 1;
+
+		printf("\nDeseja remover novamente?");
 		printf("\n1. Sim");
 		printf("\n2. Nao");
 		printf("\nOpcao: ");
@@ -172,7 +215,11 @@ void adicionar_estoque(int *qtd_estoque, estoque E[]){
 	}
 }
 
-//	Função para mostrar os items cadastrados no estoque usando ponteiro e struct.
+/*
+	Função para mostrar os items cadastrados no estoque usando ponteiro e struct.
+	O ponteiro serve como contador.
+	O for vai de 0 até o número que está armazenado no ponteiro.
+*/
 void mostrar_estoque(int *qtd_estoque, estoque E[]){
 	printf("\n===== Items em estoque =====");
 	for(int i = 0; i < *qtd_estoque; i++){
@@ -181,7 +228,11 @@ void mostrar_estoque(int *qtd_estoque, estoque E[]){
 	printf("\n");
 }
 
-// Função Cadastro de pedidos usando ponteiros e struct.
+/*
+	Função cadastro de pedidos usando ponteiros e struct.
+	O ponteiro de quantidade serve como contador para a função mostrar_pedidos()
+	O ponteiro de valorTotal é atualizado a cada pedido e depois é contabilizado e utilizado na função controle_caixa()
+*/
 void cadastrar_pedido(int *qtd_pedido, pedido P[], double *valor_total){
 	int op, op2;
 	double valor;
@@ -193,9 +244,6 @@ void cadastrar_pedido(int *qtd_pedido, pedido P[], double *valor_total){
 		scanf("%[^\n]s", P[*qtd_pedido].vet);
 		printf("Digite o valor do pedido: R$");
 		scanf("%lf", &valor);
-		*valor_total += valor;
-
-		*qtd_pedido += 1;
 
 		printf("\nDeseja cadastrar outro pedido?");
 		printf("\n1. Sim");
@@ -203,6 +251,8 @@ void cadastrar_pedido(int *qtd_pedido, pedido P[], double *valor_total){
 		printf("\nDigite a opcao: ");
 		scanf("%d", &op2);
 
+		*valor_total += valor;
+		*qtd_pedido += 1;
 		if(op2 == 2) return;
 	}
 }
@@ -215,6 +265,10 @@ void mostrar_pedidos(int *qtd_pedido, pedido P[]){
 	printf("\n");
 }
 
+/*
+	A função controle de caixa mostra a quantidade atual do valor no caixa.
+	Caso o usuário deseje resetar o balanço do dia, o ponteiro valor_final será definido como 0.
+*/
 void controle_caixa(int *qtd_pedido, double *valor_final){
 	int op;
 
@@ -233,26 +287,6 @@ void controle_caixa(int *qtd_pedido, double *valor_final){
 	}
 }
 
-void remover_estoque(int *qtd_estoque, estoque E[]){
-	int op, id;
-	while(1){
-		setbuf(stdin, NULL);
-		printf("\n===== Remover algum item do estoque =====");
-		printf("\nDigite o ID: ");
-		scanf("%d", &id);
-		
-		/*for(int i = id+1; i <= *qtd_estoque; i++){
-			E[i-1].vet = E[i].vet;
-		}*/
-
-		printf("\nDeseja remover novamente?");
-		printf("\n1. Sim");
-		printf("\n2. Nao");
-		scanf("%d", &op);
-
-		if(op == 2) return;
-	}
-}
 
 void menu(){
 	int opcao;
@@ -261,8 +295,7 @@ void menu(){
 	double valor_final = 0;
 	//	Inicialização das variaveis de quantidade em 0.
 	//	Elas servem para o controle do "contador" do número de "itens adicionados".
-	int quantidade_comida = 0, quantidade_sobremesa = 0, quantidade_bebida = 0, quantidade_estoque = 0;
-	int quantidade_pedido = 0;
+	int quantidade_comida = 0, quantidade_sobremesa = 0, quantidade_bebida = 0, quantidade_estoque = 0, quantidade_pedido = 0;
 	//	Inicialização dos ponteiros de quantidade
 	int *quantidadeComida, *quantidadeSobremesa, *quantidadeBebida, *quantidadeEstoque, *quantidadePedido;
 	//	Inicialização do ponteiro para manipular o resultado financeiro do dia.
@@ -273,7 +306,7 @@ void menu(){
 	quantidadeBebida = &quantidade_bebida;
 	quantidadeEstoque = &quantidade_estoque;
 	quantidadePedido = &quantidade_pedido;
-	//	Inicialização do ponteiro para atualizar valor final
+	//	Configuração do ponteiro para atualizar valor final
 	valorFinal = &valor_final;
 
 	pratos_principais c[MAXQTD];
@@ -286,32 +319,31 @@ void menu(){
 		setbuf(stdin, NULL);
 		printf("\nBem vindo ao Sistema de Gerenciamento de Restaurante");
 		printf("\n1 - Adicionar no cardapio");
-		//printf("\n2 - Remover do cardapio");
-		printf("\n2 - Mostrar o cardapio");
-		printf("\n3 - Cadastrar no estoque");
-		//printf("n11 - Remover do estoque");
-		printf("\n4 - Mostrar o estoque");
-		printf("\n5 - Cadastrar pedido");
-		printf("\n6 - Mostrar lista de pedidos");
-		printf("\n7 - Controle de caixa");
-		/*printf("\n8 - Relatorio gerencial");
-		printf("\n9 - Ver relatorio");*/
-		printf("\n10 - Sair");
+		printf("\n2 - Remover do cardapio");
+		printf("\n3 - Mostrar o cardapio");
+		printf("\n4 - Cadastrar no estoque");
+		printf("\n5 - Remover do estoque");
+		printf("\n6 - Mostrar o estoque");
+		printf("\n7 - Cadastrar pedido");
+		printf("\n8 - Mostrar lista de pedidos");
+		printf("\n9 - Controle de caixa");
+		printf("\n10 - Relatorio gerencial");
+		printf("\n11 - Ver relatorio");
+		printf("\n12 - Sair");
 		printf("\nDigite opcao: ");
 		scanf("%d", &opcao);
 	
 		if(opcao == 1) adicionar_cardapio(quantidadeComida, c, quantidadeSobremesa, s, quantidadeBebida, b);
-		if(opcao == 2) mostrar_cardapio(quantidadeComida, c, quantidadeSobremesa, s, quantidadeBebida, b);
-		if(opcao == 3) adicionar_estoque(quantidadeEstoque, e);
-		//if(opcao == 11) remover_estoque(quantidadeEstoque, e);
-		if(opcao == 4) mostrar_estoque(quantidadeEstoque, e);
-		if(opcao == 5) cadastrar_pedido(quantidadePedido, p, valorFinal);
-		if(opcao == 6) mostrar_pedidos(quantidadePedido, p);
-		if(opcao == 7) controle_caixa(quantidadePedido, valorFinal);
-		if(opcao == 10) return;
+		if(opcao == 3) mostrar_cardapio(quantidadeComida, c, quantidadeSobremesa, s, quantidadeBebida, b);
+		if(opcao == 4) adicionar_estoque(quantidadeEstoque, e);
+		if(opcao == 5) remover_estoque(quantidadeEstoque, e);
+		if(opcao == 6) mostrar_estoque(quantidadeEstoque, e);
+		if(opcao == 7) cadastrar_pedido(quantidadePedido, p, valorFinal);
+		if(opcao == 8) mostrar_pedidos(quantidadePedido, p);
+		if(opcao == 9) controle_caixa(quantidadePedido, valorFinal);
+		if(opcao == 12) return;
 	}
 }
-
 
 int main(){
 	menu();
