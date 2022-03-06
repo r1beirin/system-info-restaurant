@@ -27,12 +27,12 @@ typedef struct{
 	double price[MAXQTD];
 }bebida;
 
-//	Struct de vetores para o estoque
+//	Struct de vetor para o estoque
 typedef struct{
 	char vet[MAXQTD];
 }estoque;
 
-//	Struct de matrizes para os pedidos
+//	Struct de vetor para os pedidos
 typedef struct{
 	char vet[MAXQTD];
 }pedido;
@@ -140,12 +140,6 @@ void remover_cardapio(int *qtd_comida, pratos_principais P[], int *qtd_sobremesa
             printf("\n===== PRATOS PRINCIPAIS =====");
             printf("\nDigite o ID: ");
             scanf("%d", &id);
-
-			/*
-				Morango	- R$15
-				Abacaxi	- R$10
-				Uva		- R$5
-			*/
 
             for(int i = id+1; i <= *qtd_comida; i++){
                 strcpy(P[i-1].vet, P[i].vet);
