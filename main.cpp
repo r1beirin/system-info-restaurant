@@ -141,10 +141,15 @@ void remover_cardapio(int *qtd_comida, pratos_principais P[], int *qtd_sobremesa
             printf("\nDigite o ID: ");
             scanf("%d", &id);
 
+			/*
+				Morango	- R$15
+				Abacaxi	- R$10
+				Uva		- R$5
+			*/
+
             for(int i = id+1; i <= *qtd_comida; i++){
                 strcpy(P[i-1].vet, P[i].vet);
                 *P[i-1].price = *P[i].price;
-                
             }
 
             *qtd_comida -= 1;
@@ -158,7 +163,6 @@ void remover_cardapio(int *qtd_comida, pratos_principais P[], int *qtd_sobremesa
             for(int i = id+1; i <= *qtd_sobremesa; i++){
                 strcpy(S[i-1].vet, S[i].vet);
                 *S[i-1].price = *S[i].price;
-                
             }
 
             *qtd_sobremesa -= 1;
@@ -172,7 +176,6 @@ void remover_cardapio(int *qtd_comida, pratos_principais P[], int *qtd_sobremesa
             for(int i = id+1; i <= *qtd_bebida; i++){
                 strcpy(B[i-1].vet, B[i].vet);
                 *B[i-1].price = *B[i].price;
-                
             }
 
             *qtd_bebida -= 1;
