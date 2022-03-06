@@ -179,7 +179,6 @@ void remover_cardapio(int *qtd_comida, pratos_principais P[], int *qtd_sobremesa
         }
         
         if(op == 4) return;
-
     }
 
 }
@@ -355,6 +354,127 @@ void controle_caixa(int *qtd_pedido, double *valor_final){
 	}
 }
 
+/*
+	A função relatorio_gerencial() manipula a criação de dois arquivos txt (estoque e caixa)
+	É necessário a inicialização de um ponteiro do tipo FILE.
+*/
+void relatorio_gerencial(int *qtd_estoque, estoque E[], double *valor_final){
+	int op;
+
+	// Cria um ponteiro do tipo FILE para inicializar a manipulação de arquivos
+	FILE *relatorio;
+
+	while(1){
+		setbuf(stdin, NULL);
+		printf("\n===== Gerar Relatorio =====");
+		printf("\n1. Estoque");
+		printf("\n2. Caixa");
+		printf("\n3. Voltar");
+		printf("\nOpcao: ");
+		scanf("%d", &op);
+
+		if(op == 1){
+			// Cria/abre um arquivo txt como write
+			relatorio = fopen("relatorio_estoque.txt", "w");
+			
+			// Verificando se houve algum erro ao criar o arquivo - Ex: o disco pode estar sem espaço.
+			if(relatorio == NULL){
+				printf("\nErro ao criar o arquivo!\n");
+			}
+			else{
+				fputs("===== Items em estoque =====", relatorio);
+				for(int i = 0; i < *qtd_estoque; i++){
+					// fprintf é uma função que grava no arquivo como se fosse um print
+					fprintf(relatorio, "\nID %d - %s", i, E[i].vet);
+				}
+				printf("\nRelatorio gerado com sucesso!\n");
+			}
+			fclose(relatorio);
+		}
+
+		if(op == 2){
+			relatorio = fopen("relatorio_caixa.txt", "w");
+			
+			if(relatorio == NULL){
+				printf("\nErro ao criar o arquivo!\n");
+			}
+			else{
+				fputs("===== Controle do caixa financeiro =====", relatorio);
+				fprintf(relatorio, "\nResultado atual do caixa: R$%.2lf", *valor_final);
+				printf("\nRelatorio gerado com sucesso!\n");
+			}
+			fclose(relatorio);
+		}
+
+		if(op == 3) return;
+	}
+}
+
+/*
+	Essa função faz a leitura caracter a caracter de dois arquivos txt do relatorio (estoque e caixa)
+	e resulta em um output na tela do usuário.
+	É necessário declarar um ponteiro do tipo FILE para manipular arquivos.
+*/
+
+void ver_relatorio(){
+	int op;
+
+	// Cria uma variavel caracter para utilizar na leitura
+	char caractere;
+
+	// Cria um ponteiro do tipo FILE para inicializar a manipulação de arquivos
+	FILE *relatorio;
+
+	while(1){
+		setbuf(stdin, NULL);
+		printf("\n===== Ver relatorio =====");
+		printf("\n1. Relatorio do estoque");
+		printf("\n2. Relatorio do caixa");
+		printf("\nOpcao: ");
+		scanf("%d",&op);
+
+		if(op == 1){
+			//	Abre um arquivo como read
+			relatorio = fopen("relatorio_estoque.txt", "r");
+
+			if(relatorio == NULL){
+				printf("\nErro ao criar o arquivo!\n");
+			}
+			else{
+				printf("\n");
+				//	Enquanto não for o fim do arquivo, le o caracter e imprime.
+				while (caractere != EOF){
+					//	Faz a leitura do caracter no arquivo apontado no ponteiro relatorio
+					caractere = fgetc(relatorio);
+					printf("%c", caractere);
+				}
+				printf("\n");
+			}
+			fclose(relatorio);
+			return;
+		}
+
+		if(op == 2){
+			relatorio = fopen("relatorio_caixa.txt", "r");
+
+			if(relatorio == NULL){
+				printf("\nErro ao criar o arquivo!\n");
+			}
+			else{
+				printf("\n");
+				while (caractere != EOF){
+					caractere = fgetc(relatorio);
+					printf("%c", caractere);
+				}
+				printf("\n");
+			}
+			fclose(relatorio);
+			return;
+		}
+	}
+
+}
+
 
 void menu(){
 	int opcao;
@@ -410,6 +530,8 @@ void menu(){
 		if(opcao == 7) cadastrar_pedido(quantidadePedido, p, valorFinal);
 		if(opcao == 8) mostrar_pedidos(quantidadePedido, p);
 		if(opcao == 9) controle_caixa(quantidadePedido, valorFinal);
+		if(opcao == 10) relatorio_gerencial(quantidadeEstoque, e, valorFinal);
+		if(opcao == 11) ver_relatorio();
 		if(opcao == 12) return;
 	}
 }
