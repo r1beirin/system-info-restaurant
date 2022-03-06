@@ -366,7 +366,7 @@ void relatorio_gerencial(int *qtd_estoque, estoque E[], double *valor_final){
 
 	while(1){
 		setbuf(stdin, NULL);
-		printf("\n===== Gerar Relatorio =====");
+		printf("\n===== Gerar relatorio =====");
 		printf("\n1. Estoque");
 		printf("\n2. Caixa");
 		printf("\n3. Voltar");
@@ -515,7 +515,7 @@ void menu(){
 		printf("\n7 - Cadastrar pedido");
 		printf("\n8 - Mostrar lista de pedidos");
 		printf("\n9 - Controle de caixa");
-		printf("\n10 - Relatorio gerencial");
+		printf("\n10 - Gerar relatorio gerencial");
 		printf("\n11 - Ver relatorio");
 		printf("\n12 - Sair");
 		printf("\nDigite opcao: ");
