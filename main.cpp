@@ -35,6 +35,7 @@ typedef struct{
 //	Struct de vetor para os pedidos
 typedef struct{
 	char vet[MAXQTD];
+	char cliente[MAXQTD];
 }pedido;
 
 /*
@@ -141,6 +142,11 @@ void remover_cardapio(int *qtd_comida, pratos_principais P[], int *qtd_sobremesa
             printf("\nDigite o ID: ");
             scanf("%d", &id);
 
+			/*
+				0 - Abacaxi	- R$10
+				1 - Uva		- R$5
+				2 - Uva		- R$5
+			*/
             for(int i = id+1; i <= *qtd_comida; i++){
                 strcpy(P[i-1].vet, P[i].vet);
                 *P[i-1].price = *P[i].price;
@@ -298,14 +304,19 @@ void mostrar_estoque(int *qtd_estoque, estoque E[]){
 	O ponteiro de valorTotal é atualizado a cada pedido e depois é contabilizado e utilizado na função controle_caixa()
 */
 void cadastrar_pedido(int *qtd_pedido, pedido P[], double *valor_total){
-	int op, op2;
+	int op, op2, aux = 0;
+	char teste[MAXQTD];
 	double valor;
 
 	while(1){
 		setbuf(stdin, NULL);
 		printf("\n===== Cadastro de pedido =====");
-		printf("\nDigite o pedido do cliente: ");
+		printf("\nDigite o nome do cliente: ");
+		scanf("%[^\n]s", P[*qtd_pedido].cliente);
+		setbuf(stdin, NULL);
+		printf("Digite o pedido do cliente: ");
 		scanf("%[^\n]s", P[*qtd_pedido].vet);
+
 		printf("Digite o valor do pedido: R$");
 		scanf("%lf", &valor);
 
@@ -324,7 +335,7 @@ void cadastrar_pedido(int *qtd_pedido, pedido P[], double *valor_total){
 void mostrar_pedidos(int *qtd_pedido, pedido P[]){
 	printf("\n===== Lista de pedidos do restaurante =====");
 	for(int i = 0; i < *qtd_pedido; i++){
-		printf("\nPEDIDO n. %d -> %s", i, P[i].vet);
+		printf("\nPEDIDO n. %d -> %s | Cliente: %s", i, P[i].vet, P[i].cliente);
 	}
 	printf("\n");
 }
@@ -435,7 +446,7 @@ void ver_relatorio(){
 			relatorio = fopen("relatorio_estoque.txt", "r");
 
 			if(relatorio == NULL){
-				printf("\nErro ao criar o arquivo!\n");
+				printf("\nErro ao ler!\n");
 			}
 			else{
 				printf("\n");
@@ -455,7 +466,7 @@ void ver_relatorio(){
 			relatorio = fopen("relatorio_caixa.txt", "r");
 
 			if(relatorio == NULL){
-				printf("\nErro ao criar o arquivo!\n");
+				printf("\nErro ao ler!\n");
 			}
 			else{
 				printf("\n");
@@ -493,7 +504,7 @@ void menu(){
 	quantidadePedido = &quantidade_pedido;
 	//	Configuração do ponteiro para atualizar valor final
 	valorFinal = &valor_final;
-
+	
 	pratos_principais c[MAXQTD];
 	sobremesa s[MAXQTD];
 	bebida b[MAXQTD];
